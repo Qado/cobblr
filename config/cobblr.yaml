@@ -1,0 +1,9 @@
+applications:
+  - desktop
+  - music
+  - phone
+  - calculator
+startup:
+  application: desktop
+  screen_mode: 1
+     

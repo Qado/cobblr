@@ -1,0 +1,15 @@
+gpio_interrupts:
+  15:
+    'application': 'desktop'
+    'screen_mode': 1
+    'messages': ['Going to desktop!']
+  16: 
+   'application': 'backlight'
+   'screen_mode': 1
+   'messages': 'GO HOME'
+  13:
+   'application': 'desktop'
+   'screen_mode': 1
+   'messages': 'GO HOME'
+
+
