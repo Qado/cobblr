@@ -5,6 +5,8 @@ from engine import config
 from engine import TextWriter
 from engine import Menu
 from engine import Events
+from engine import Configure
+from engine import Setup
 import sys
 import os
 import logging
@@ -18,17 +20,12 @@ import threading
 import signal
 import pyaudio
 import picamera
-
+import argparse
 
 """
 Module: cobblr
 Location: cobblr.py
 """
-
-# Assigning Input and Outputs for PiTFT.
-os.putenv('SDL_VIDEODRIVER', 'fbcon')
-os.putenv('SDL_FBDEV'      , '/dev/fb1')
-
 # Setting Up GPIO Input and Output.
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(11, GPIO.IN, pull_up_down = GPIO.PUD_UP)
@@ -43,23 +40,20 @@ def GracefulExit(signal, frame):
   logging.debug('exiting frame: %s', frame)
   SystemState.pygame.quit()
   sys.exit(0)
-
 signal.signal(signal.SIGINT, GracefulExit)
-logging.basicConfig(format='%(asctime)s %(module)s %(levelname)s: %(message)s', filename='cobblr.log', level=logging.DEBUG)
-logger = logging.getLogger( __name__ )
 
 def InitSystem():
   """Initilizes the entire system.
-  
+
   Args:
     None
 
   Returns:
     None
-  
+
   The Init() first initilizes pygame and sets the modes. Then, it loads
-  applications defined in the cobblr.yaml configuration file. After that, it
-  loads each module for each application and stores it in a list. If that
+  applications engine.SystemState found in the applications/ directory. After
+  that, it loads each module for each application and stores it in a list. If that
   module is present, it checks if there are functions in each module to be
   called. The functions are placed in each <application_name>_module.py file.
 
@@ -84,30 +78,32 @@ def InitSystem():
       Similar to Main, but get's called when Cobblr is initialized. Thread is
       a part of the module that get's spawned as a thread from within
       init. If there is a set of tasks that the module must run outside of the
-      main thread, it is placed in the module's Thread function. 
-  
+      main thread, it is placed in the module's Thread function.
+
   A module needs any of these to work correctly, depending on what it does.
   Init looks for these and either calls them, as is the case of Init and
   Thread, or uses them later based on some Screen. as is the case with Process
   and Screen.
   """
   logging.info('starting Cobblr.')
+  os.chdir('/opt/cobblr')
   # Initializing pygame and screen.
-  pygame.init()
+  #pygame.init()
   pygame.mouse.set_visible(False)
   modes = pygame.display.list_modes(16)
-
+  applications = SystemState.applications
+  #display_info = pygame.display.Info()
+  #SystemState.resolution = (display_info.current_w, display_info.current_h)
   # Assigning variables used by other modules to SystemState
   SystemState.pyaudio = pyaudio.PyAudio()
   SystemState.pygame = pygame
   SystemState.screen = pygame.display.set_mode(modes[0], pygame.FULLSCREEN, 16)
   SystemState.cobblr_config = yaml.load(open("config/cobblr.yaml"))
-  
+
   SystemState.gpio_interrupts = __FetchGPIOConfig()
   # Setup for storing application configs and modules.
   application_configs = {}
   application_modules = []
-  applications = SystemState.cobblr_config["applications"]
 
   # Setup which application is the startup applicaton.
   startup_info = SystemState.cobblr_config["startup"]
@@ -116,21 +112,21 @@ def InitSystem():
 
   # Reading each application's config file.
   logging.info("reading application config files")
-  
+
   for application in applications:
     application = str(application)
     application_dir = os.path.join("applications", application)
     application_config_dir = os.path.join(application_dir, "config")
     application_config  = os.path.join(application_config_dir, application + ".yaml")
-    
+
     # Initializing the config.
     logging.debug('starting %s application.', application)
     config.Init(application_config)
     config_object = config.SystemConfig.applications[application]
     application_configs[application] = config_object
     application_module = config_object["module"]
-    application_modules.append(application_module) 
-  
+    application_modules.append(application_module)
+
   # Storing the application configs for use by other modules.
   SystemState.application_configs = application_configs
 
@@ -158,7 +154,7 @@ def InitSystem():
       module_thread = threading.Thread(target=thread.Thread)
       module_thread.start()
       SystemState.application = None
-  
+
   # Refreshing the screen, setting up screen sleep, and changing to desktop.
   logging.info('loading splash')
   SystemState.BACKLIGHT.start(100)
@@ -166,10 +162,12 @@ def InitSystem():
   SystemState.screen.fill((255, 255, 255))
   SystemState.BACKLIGHT.start(100)
   cobblr_image = pygame.image.load("config/cobblr_splash_screen.png").convert()
- 
-  if SystemState.startup_screen_size[0] < SystemState.startup_screen_size[1]:
+
+  if SystemState.resolution[0] < SystemState.resolution[1]:
+    SystemState.orientation = 'portrait'
     SystemState.screen.blit(cobblr_image, (17, 120))
-  else:
+  elif SystemState.resolution[0] < SystemState.resolution[1]:
+    SystemState.orientation = 'landscape'
     SystemState.screen.blit(cobblr_image, (62, 90))
 
   SystemState.pygame.display.update()
@@ -179,7 +177,7 @@ def InitSystem():
   # Jump to the application and screen mode specifed in cobblr.yaml.
   Menu.JumpTo(
       application=SystemState.startup_application,
-      screen_mode=SystemState.startup_screen_mode, 
+      screen_mode=SystemState.startup_screen_mode,
       change_application=True
   )
 
@@ -202,14 +200,55 @@ def RunCobblr():
   RunCobblr is the main thread that starts up cobblr and it's applications.
   """
   InitSystem()
-  
+
   # Cobblr's main loop.
   logging.info('start of Cobblr main loop')
   while(True):
     #pygame_clock.tick(60)
     Events.CheckEvents()
   logging.critical('Cobblr main loop exited!')
-  
+
+def ParseArgs():
+  """Parses command line arguments
+
+  Args:
+    None.
+
+  Returns:
+    None.
+  """
+  parser = argparse.ArgumentParser()
+  subparsers = parser.add_subparsers(help='commands')
+
+  # Install subparser.
+  install_parser = subparsers.add_parser('install')
+  install_parser.add_argument(
+      'install', action='store', nargs=1, help="Install Cobblr app.")
+
+  # Remove subparser.
+  remove_parser = subparsers.add_parser('remove')
+  remove_parser.add_argument(
+      'remove', action='store', nargs=1, help='Remove Cobblr app.')
+
+  # Configure subparser.
+  configure_parser = subparsers.add_parser('configure')
+  configure_parser.add_argument(
+      'configure', action='store', help='Configure desktop icons.')
+
+  # I hate this.
+  args = parser.parse_args()
+  args_dict = vars(args)
+  action = args_dict.keys()[0].lower()
+  software = args_dict.values()[0][0].lower()
+
+  if action == 'install':
+    Setup.InstallApplication(software)
+  elif action == 'remove':
+    Setup.RemoveApplication(software)
+  elif action == 'configure':
+    Configure.ConfigureApplication(application)
+  else:
+    RunCobblr()
 
 if __name__ == '__main__':
-  RunCobblr()
+  ParseArgs()

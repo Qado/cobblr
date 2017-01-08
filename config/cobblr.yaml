@@ -1,9 +1,4 @@
-applications:
-  - desktop
-  - music
-  - phone
-  - calculator
+icon-size: [40, 40]
 startup:
   application: desktop
   screen_mode: 1
-     

@@ -12,14 +12,14 @@ import logging
 def CheckScreenEvents():
   """Checks for any screen touches."""
   pygame = SystemState.pygame
-  
+
   xpos = None
   ypos = None
-  
+
   device = InputDevice("/dev/input/touchscreen")
   r,w,x = select.select([device], [], [], 0.2)
-  
-  try: 
+
+  try:
     for event in device.read():
       if event.code == 53:
         xpos = event.value
@@ -27,7 +27,7 @@ def CheckScreenEvents():
         ypos = event.value
   except IOError:
     pass
-   
+
   pos = (xpos, ypos)
   if xpos is not None and ypos is not None:
     time_delta = abs(time.time() - SystemState.screen_time)
@@ -40,6 +40,7 @@ def CheckTimerEvents():
 
 def CheckGPIOEvents():
   """Checks for any GPIO button touches."""
+  # TODO: GPIO interrupts must support callbacks.
   GPIO.ProcessGPIOEvents()
 
 def CheckInterruptEvents():
@@ -51,6 +52,7 @@ def CheckInterruptEvents():
 def CheckEvents():
   """Calls all three check events."""
   CheckScreenEvents()
-  CheckGPIOEvents()
+  # TODO: Uncomment this once GPIO support is back.
+  # CheckGPIOEvents()
   CheckInterruptEvents()
   CheckTimerEvents()

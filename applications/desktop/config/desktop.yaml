@@ -1,15 +1,10 @@
+Main: true
+Process: true
 application: desktop
-Process: True
-Main: True
-screen-size: [320, 240]
 icon-size: [40, 40]
-screen-modes: 
+screen-modes:
   1:
     power: [6, 8]
-    phone: [2.25, 4]
-    music: [3.5, 4]
-    calculator: [4.75, 4]
   2:
     accept: [3, 4]
     decline: [6, 4]
-

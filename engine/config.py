@@ -14,7 +14,7 @@ class SystemConfig(object):
 def Init(config_file):
   """Initializes configurations for each application.
 
-  Args: 
+  Args:
     config_file: a yaml file that contains system configuration information.
 
   Returns:
@@ -39,11 +39,11 @@ def Init(config_file):
   icon_size = file_content['icon-size']
   icon_x = icon_size[0]
   icon_y = icon_size[1]
-  screen_size = file_content['screen-size']
+  #screen_size = file_content['screen-size']
   screen_modes = file_content['screen-modes']
 
-  if SystemState.startup_application == 'desktop':
-      SystemState.startup_screen_size = screen_size
+  #if SystemState.startup_application == 'desktop':
+  #    SystemState.startup_screen_size = screen_size
 
   # Checking for module settings
   init_settings = file_content.get('Init')
@@ -76,10 +76,10 @@ def Init(config_file):
       ymin = ymax - icon_y
       fname = os.path.join(icon_directory, str(button) + ".png")
       mode_data = {
-          'xmax': xmax, 
-          'ymax': ymax, 
-          'xmin': xmin, 
-          'ymin': ymin, 
+          'xmax': xmax,
+          'ymax': ymax,
+          'xmin': xmin,
+          'ymin': ymin,
           'file': fname
       }
       current_app["modes"][mode][button] = mode_data

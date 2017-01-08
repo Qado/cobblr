@@ -10,7 +10,7 @@ SystemState.TimeOuts = TimeOuts
 
 def SetTimeOut(timeout_name, time_span, callback, callback_args=None, permanent=False):
   """Sets timeouts for system events.
-  
+
   Args:
     timeout_name (str): The name of the timeout used in the TimeOuts class.
     time_span (int): The amount of time (secs) until timeout is called.
@@ -44,7 +44,7 @@ def DeleteTimeOut(timeout_name):
 
   Args:
     timeout_name(str): The name of the timeout to be deleted.
-  
+
   Returns:
     None.
 
@@ -55,7 +55,7 @@ def DeleteTimeOut(timeout_name):
 
 def CheckTimeOut():
   """Check's the TimeOuts class for timeouts.
-  
+
   Args:
     None
 
@@ -80,9 +80,8 @@ def CheckTimeOut():
       callback_args = timeout_data[4]
       permanent = timeout_data[5]
       now_time = int(time.time())
-      
-      print timeout_data
-      if timeout_application == SystemState.application: 
+
+      if timeout_application == SystemState.application:
         # Checking timeout object to see what it contains.
         if now_time - timeout_time >= 0:
           Utilities.Call(callback, callback_args)
