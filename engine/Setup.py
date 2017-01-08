@@ -76,7 +76,6 @@ def __InstallCobblr():
   # Setting up variables.
   cobblr_executable = os.path.join(SystemState.cobblr_path, 'cobblr.py')
   cobblr_symlink = '/usr/local/bin/cobblr'
-  package_path = os.getcwd()
 
   # Removing old install.
   os.chdir('/')
@@ -88,13 +87,15 @@ def __InstallCobblr():
 
   # Performing install.
   print "Installing Cobblr to " + SystemState.cobblr_path
-  copy_cobblr = 'cp -r ' + package_path + ' ' + SystemState.cobblr_path
+  copy_cobblr = 'cp -rf ' + SystemState.starting_path  + ' ' + SystemState.cobblr_path
   os.system(copy_cobblr)
   os.symlink(cobblr_executable, '/usr/local/bin/cobblr')
   logging.info('Finished installing Cobblr')
 
+
 def __InstallApplication(application):
   print "Cloning repo for ", application
+  SystemState.current_install = application.split('-')[-1]
   clone_repo = 'git clone http://github.com/TheQYD/' + application
   os.system(clone_repo)
   msg = 'Cloned', application
@@ -110,17 +111,17 @@ def __InstallApplication(application):
 
       # Checking for dependencies.
       try:
-        deps = yaml.load(open('deps.yaml'))
+        dependencies = yaml.load(open('dependencies.yaml'))
       except:
-        deps = None
+        dependencies = None
 
   # Finding module files.
   module_files = [i for i in application_content if '.png' not in i]
-  if deps is not None:
-    install_deps = 'apt-get install -y ' + deps
+  if dependencies is not None:
+    install_dependencies = 'apt-get install -y ' + dependencies
   try:
     print "Installing dependencies. Please wait..."
-    os.system(install_deps)
+    os.system(install_dependencies)
   except:
     pass
 

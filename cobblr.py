@@ -244,6 +244,9 @@ def ParseArgs():
   action = args_dict.keys()[0].lower()
   software = args_dict.values()[0][0].lower()
 
+  # Performing actions
+  if software.find('-') < 0 and software != 'cobblr':
+    software = 'cobblr-' + software
   if action == 'install':
     Setup.InstallApplication(software)
   elif action == 'remove':

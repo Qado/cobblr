@@ -16,6 +16,7 @@ import logging
 
 
 # Setting up path.
+starting_path = os.getcwd()
 cobblr_path = '/opt/cobblr'
 if os.path.exists(cobblr_path):
   os.chdir(cobblr_path)

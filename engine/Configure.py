@@ -28,6 +28,7 @@ def ConfigureDesktop():
 def DesktopLayout(icon_size):
   desktop_layout = {}
   applications = list(SystemState.applications)
+  applications.append(SystemState.current_install)
   del applications[applications.index('desktop')]
 
   # Setting up icon grid.
