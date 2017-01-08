@@ -76,9 +76,10 @@ def __InstallCobblr():
   # Setting up variables.
   cobblr_executable = os.path.join(SystemState.cobblr_path, 'cobblr.py')
   cobblr_symlink = '/usr/local/bin/cobblr'
-  current_path = os.getcwd()
+  package_path = os.getcwd()
 
   # Removing old install.
+  os.chdir('/')
   print "Removing old Cobblr install at " + SystemState.cobblr_path
   remove_cobblr = 'rm -rf ' + SystemState.cobblr_path
   remove_symlink = 'rm -rf ' + cobblr_symlink
@@ -87,7 +88,7 @@ def __InstallCobblr():
 
   # Performing install.
   print "Installing Cobblr to " + SystemState.cobblr_path
-  copy_cobblr = 'cp -r ' + current_path + ' ' + SystemState.cobblr_path
+  copy_cobblr = 'cp -r ' + package_path + ' ' + SystemState.cobblr_path
   os.system(copy_cobblr)
   os.symlink(cobblr_executable, '/usr/local/bin/cobblr')
   logging.info('Finished installing Cobblr')

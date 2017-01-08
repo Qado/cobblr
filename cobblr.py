@@ -200,11 +200,10 @@ def RunCobblr():
   RunCobblr is the main thread that starts up cobblr and it's applications.
   """
   InitSystem()
-
+  print "Running cobblr"
   # Cobblr's main loop.
   logging.info('start of Cobblr main loop')
   while(True):
-    #pygame_clock.tick(60)
     Events.CheckEvents()
   logging.critical('Cobblr main loop exited!')
 
@@ -234,6 +233,10 @@ def ParseArgs():
   configure_parser = subparsers.add_parser('configure')
   configure_parser.add_argument(
       'configure', action='store', help='Configure desktop icons.')
+  # Start subparser
+  configure_parser = subparsers.add_parser('start')
+  configure_parser.add_argument(
+      'start', action='store', help='Starts application')
 
   # I hate this.
   args = parser.parse_args()
@@ -246,8 +249,8 @@ def ParseArgs():
   elif action == 'remove':
     Setup.RemoveApplication(software)
   elif action == 'configure':
-    Configure.ConfigureApplication(application)
-  else:
+    Configure.ConfigureApplication(software)
+  elif action == 'start':
     RunCobblr()
 
 if __name__ == '__main__':
