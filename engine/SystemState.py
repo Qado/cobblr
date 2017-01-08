@@ -53,6 +53,8 @@ application_changed = False
 store_history = True
 state_history = []
 state_history_direction = None
+install_application = None
+remove_application = None
 
 # Screen State Data.
 screen_mode = None

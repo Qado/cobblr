@@ -47,8 +47,8 @@ def RemoveApplication(application):
   applications_path = os.path.join(SystemState.cobblr_path, 'applications')
   application_path = os.path.join(applications_path, application)
   icons_path = os.path.join(applications_path, 'desktop/icons')
-
-  application_icon = application + '.png'
+  SystemState.remove_application = application.split('-')[-1]
+  application_icon = application.split('-')[-1] + '.png'
   icon_path = os.path.join(icons_path, application_icon)
 
   # Removing icon.
@@ -104,7 +104,7 @@ def __InstallDependencies(path):
 
 def __InstallApplication(application):
   print "Cloning repo for ", application
-  SystemState.current_install = application.split('-')[-1]
+  SystemState.install_application = application.split('-')[-1]
   clone_repo = 'git clone http://github.com/TheQYD/' + application
   os.system(clone_repo)
   msg = 'Cloned', application

@@ -23,12 +23,19 @@ def ConfigureDesktop():
   screen_modes[2] = ConfirmLayout()
   file_content['screen-modes'] = screen_modes
   print "Generating new desktop config at", desktop_config
-  yaml.dump(file_content, open(desktop_config, 'w'))
+  config_object = open(desktop_config, 'w')
+  yaml.dump(file_content, config_object)
+  config_object.close()
 
 def DesktopLayout(icon_size):
   desktop_layout = {}
   applications = list(SystemState.applications)
-  applications.append(SystemState.current_install)
+   
+  if SystemState.install_application is not None: 
+    applications.append(SystemState.install_application)
+  elif SystemState.remove_application is not None:
+    if SystemState.remove_application in applications:
+      del applications[applications.index(SystemState.remove_application)] 
   del applications[applications.index('desktop')]
 
   # Setting up icon grid.
@@ -51,7 +58,7 @@ def DesktopLayout(icon_size):
   # Checking for column limit.
   for application in applications:
     desktop_layout[application] = [xpos, ypos]
-
+    
     # Laying out icons.
     if count % row_max != 0:
       xpos = xpos + padding
