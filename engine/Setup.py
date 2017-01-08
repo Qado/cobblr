@@ -5,7 +5,6 @@ from engine import Configure
 import sys
 import os
 import logging
-import yaml
 
 
 def InstallApplication(application):
@@ -84,6 +83,9 @@ def __InstallCobblr():
   remove_symlink = 'rm -rf ' + cobblr_symlink
   os.system(remove_cobblr)
   os.system(remove_symlink)
+  
+  # Installing dependencies.
+  __InstallDependencies(SystemState.starting_path)
 
   # Performing install.
   print "Installing Cobblr to " + SystemState.cobblr_path
@@ -92,6 +94,13 @@ def __InstallCobblr():
   os.symlink(cobblr_executable, '/usr/local/bin/cobblr')
   logging.info('Finished installing Cobblr')
 
+def __InstallDependencies(path):
+  dependencies = os.path.join(path, 'dependencies.sh')
+  if os.path.isfile(dependencies):
+    os.chmod(dependencies, 0755)
+    print "Installing dependencies. Please wait..."
+    os.system(dependencies)
+    print "Dependencies installed"
 
 def __InstallApplication(application):
   print "Cloning repo for ", application
@@ -109,21 +118,11 @@ def __InstallApplication(application):
       module_name = file_name.split('_')[0]
       icon_name = module_name + '.png'
 
-      # Checking for dependencies.
-      try:
-        dependencies = yaml.load(open('dependencies.yaml'))
-      except:
-        dependencies = None
-
   # Finding module files.
   module_files = [i for i in application_content if '.png' not in i]
-  if dependencies is not None:
-    install_dependencies = 'apt-get install -y ' + dependencies
-  try:
-    print "Installing dependencies. Please wait..."
-    os.system(install_dependencies)
-  except:
-    pass
+  
+  # Installing dependencies.
+  __InstallDependencies(os.getcwd())
 
   # Putting it all together.
   __InstallModule(SystemState.cobblr_path, module_name, module_files)
