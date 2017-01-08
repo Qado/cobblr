@@ -1,6 +1,7 @@
 *.out
 *.sw*
 *.log
+*.pyc
 media/*
 applications/*
 !applications/desktop
