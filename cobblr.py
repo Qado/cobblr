@@ -112,6 +112,8 @@ def InitSystem():
 
   # Reading each application's config file.
   logging.info("reading application config files")
+  
+  SystemState.camera = picamera.PiCamera()
 
   for application in applications:
     application = str(application)
