@@ -9,8 +9,8 @@ things familiar, I call these apps. Each app can be downloaded from Github using
 The CNC work I did with some of the devices isn't required to usr Cobblr. However, if you'd like to create those, I've put
 each in their respective directories.
 
-- [Cobblr-Camera Hardware Design (CADs)](github.com/TheQYD/cad/cobblr-camera)
-- [Cobblr-Phone Hardware Design (CADs)](github.com/TheQYD/cad/cobblr-phone) 
+- [Cobblr-Camera Hardware Design (CADs)](https://github.com/TheQYD/CAD/tree/master/cobblr-camera)
+- [Cobblr-Phone Hardware Design (CADs)](https://github.com/TheQYD/CAD/tree/master/cobblr-phone) 
 
 # Parts Required
 All that's absolutely required to use Cobblr is:
