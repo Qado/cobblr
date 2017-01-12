@@ -80,7 +80,7 @@ need them.
 
 ### cobblr-phone
 A phone using the Adafruit Fona (SIM800).
-![(Cobblr Images](photos/cobblr_collage.jpg?raw=true "Phone")
+![(Cobblr Images](photos/cobblr_phone.jpg?raw=true "Phone")
 
 It's code can be found [Raspberry Zero] (https://github.com/TheQYD/cobblr-phone)
 
