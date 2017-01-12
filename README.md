@@ -6,8 +6,8 @@ a Python framework used to make apps for the Raspberry Pi.
 Cobblr is basically a state manager that allows Python modules to run code when a button on the screen is pressed. To keep
 things familiar, I call these apps. Each app can be downloaded from Github using the Cobblr.
 
-The CNC work I did with some of the devices isn't required to usr Cobblr. However, if you'd like to create those, I've put
-each in their respective directories.
+The CNC work I did with some of the devices isn't required to use Cobblr. However if you'd like to create those, I've put
+each in a my CAD repository.
 
 - [Cobblr-Camera Hardware Design (CADs)](https://github.com/TheQYD/CAD/tree/master/cobblr-camera)
 - [Cobblr-Phone Hardware Design (CADs)](https://github.com/TheQYD/CAD/tree/master/cobblr-phone) 
