@@ -41,7 +41,7 @@ I created a few devices using the Cobblr framwork. The CNC work I did with some 
 
 These can be used to mill bodies for a phone or a camera. Using milling or 3d printing. I used Delrin, polycarbonate, and aluminum to make these devices using an Othermill(http://othermachine.co). However, they can also be 3D printed.
 
-# How to install
+# How to Install Cobblr
 1. Attach the PiTFT to the Raspberry Pi.
 2. Follow the directions provided by Lady Ada to [install the kernel and configure it](https://learn.adafruit.com/adafruit-pitft-28-inch-resistive-touchscreen-display-raspberry-pi/overview)
 3. When running the `adafruit-pitft-helper` during installation, select 'show console on screen'.
@@ -56,7 +56,7 @@ sudo ./cobblr.py install cobblr
 
 Next, you'll want to install apps.
 
-# How to Install Apps.
+# How to Install Applications
 To install apps, you simply enter:
 
 `sudo cobblr install <app name>`
@@ -75,7 +75,7 @@ Currently, three apps run in landscape mode and three in portrait mode.
 
 I'm working on a way to have all apps work in both landscape and portrait mode.
 
-# About Apps
+# About Applications
 
 Each app was meant to go with several devices I made. I've provided the CADs for those here, though Cobblr itself doesn't 
 need them.
