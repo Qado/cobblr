@@ -6,12 +6,6 @@ a Python framework used to make apps for the Raspberry Pi.
 Cobblr is basically a state manager that allows Python modules to run code when a button on the screen is pressed. To keep
 things familiar, I call these apps. Each app can be downloaded from Github using the Cobblr.
 
-The CNC work I did with some of the devices isn't required to use Cobblr. However if you'd like to create those, I've put
-each in a my CAD repository.
-
-- [Cobblr-Camera Hardware Design (CADs)](https://github.com/TheQYD/CAD/tree/master/cobblr-camera)
-- [Cobblr-Phone Hardware Design (CADs)](https://github.com/TheQYD/CAD/tree/master/cobblr-phone) 
-
 # Parts Required
 All that's absolutely required to use Cobblr is:
 - 1 [Raspberry Pi](https://www.adafruit.com/products/3055)
@@ -38,6 +32,14 @@ It really depends. The circuit design for the phone can be found [here](https://
 can be found [here](https://www.raspberrypi.org/documentation/usage/camera). If you wanted to make something else, the 
 hardware required would be different. What Cobblr provides is an easier way to make those devices, so you can focus on the 
 hardware design.
+
+# Opional CADs
+I created a few devices using the Cobblr framwork. The CNC work I did with some of the devices isn't required to use Cobblr. However if you'd like to create those, I've put each in a my CAD repository.
+
+- [Cobblr-Camera Hardware Design (CADs)](https://github.com/TheQYD/CAD/tree/master/cobblr-camera)
+- [Cobblr-Phone Hardware Design (CADs)](https://github.com/TheQYD/CAD/tree/master/cobblr-phone)
+
+These can be used to mill bodies for a phone or a camera. Using milling or 3d printing. I used Delrin, polycarbonate, and aluminum to make these devices using an Othermill(http://othermachine.co). However, they can also be 3D printed.
 
 # How to install
 1. Attach the PiTFT to the Raspberry Pi.
