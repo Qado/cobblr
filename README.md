@@ -57,7 +57,7 @@ sudo ./cobblr.py install cobblr
 Next, you'll want to install apps.
 
 # How to Install Applications
-To install apps, you simply enter:
+Once Cobblr is installed you can install apps for it. To install apps, from the command line, you simply enter:
 
 `sudo cobblr install <app name>`
 
